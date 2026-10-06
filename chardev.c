@@ -149,6 +149,7 @@ static ssize_t dev_write(struct file *filep, const char *buffer, size_t len, lof
 }
 
 static struct file_operations fops = {
+    .owner = THIS_MODULE,
     .open = dev_open,
     .read = dev_read,
     .write = dev_write,
