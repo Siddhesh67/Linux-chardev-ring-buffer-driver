@@ -189,7 +189,6 @@ static int __init chardev_init(void)
 static void __exit chardev_exit(void)
 {
     device_destroy(mychardev_class, MKDEV(major_number, 0));
-    class_unregister(mychardev_class);
     class_destroy(mychardev_class);
     unregister_chrdev(major_number, DEVICE_NAME);
     printk(KERN_INFO "mychardev: unregistered\n");
