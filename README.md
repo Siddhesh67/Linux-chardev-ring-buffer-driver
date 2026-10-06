@@ -107,7 +107,7 @@ buffer access are atomic with respect to other threads.
 | `mychardev_ioctl.h` | Shared ioctl command definitions (`MYCHARDEV_GET_COUNT`, `MYCHARDEV_CLEAR`) and magic number. Included by both the driver and the userspace tests. |
 | `Makefile` | Kbuild makefile — builds `chardev.ko` against the running kernel's headers. |
 | `hello.c` | A minimal standalone "hello world" LKM, kept as the starting-point reference. Not built by the default `Makefile` target. |
-| `test_chardev.c` | Userspace test: open, write a message, reopen, read it back, check EOF on the second read. |
+| `test_chardev.c` | Userspace test: open, write a message, reopen, read it back, check that a second read on the empty buffer returns EAGAIN under O_NONBLOCK. |
 | `test_block.c` | Userspace test: forks; the child does a blocking `read()` on an empty device, the parent writes 2 seconds later to unblock it. |
 | `test_ioctl.c` | Userspace test: writes 10 bytes, then exercises `GET_COUNT` / `CLEAR` / `GET_COUNT` via `ioctl`. |
 | `.gitignore` | Excludes kernel build artifacts and the compiled test binaries. |

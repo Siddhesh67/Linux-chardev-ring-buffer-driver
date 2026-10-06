@@ -48,9 +48,16 @@ int main(void)
     }
     printf("Read %zd bytes: \"%s\"\n", ret, read_buf);
 
+    /* Buffer is empty now; a blocking read would sleep forever. */
+    fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);
     ret = read(fd, read_buf, BUF_SIZE);
-    printf("Second read returned %zd (should be 0 for EOF)\n", ret);
-
+    if (ret < 0 && errno == EAGAIN) {
+        printf("Second read returned -1/EAGAIN (empty buffer, O_NONBLOCK)\n");
+    } else {
+        printf("Unexpected second read result: %zd\n", ret);
+        close(fd);
+        return EXIT_FAILURE;
+    }
     close(fd);
     printf("Closed device.\n");
 
